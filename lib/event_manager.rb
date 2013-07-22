@@ -2,21 +2,7 @@ require "csv"
 puts "EventManager initialized"
 
 def clean_zipcode(zip)
-  if zip.nil?
-    "0000"
-  else
-    length = zip.length
-    if length < 5
-      (5 - length).times do
-        zip = 0.to_s + zip
-      end
-      zip
-    elsif length > 5
-      zip[0..4]
-    else
-      zip
-    end
-  end
+  zip.to_s.rjust(5,"0")[0..4]
 end
 
 if File.exists? "event_attendees.csv"
