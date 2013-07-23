@@ -21,16 +21,21 @@ if File.exists? "form_letter.erb"
   template_letter = File.read "form_letter.erb"
   erb_template = ERB.new template_letter
 
+  Dir.mkdir("output") unless Dir.exists? "output"
+
    contents.each do |row|
      name = row[:first_name]
+     id = row[0]
      zip = clean_zipcode(row[:zipcode])
 
      legislators = legislators_by_zipcode(zip)
 
      form_letter = erb_template.result(binding)
 
-     puts form_letter
+     filename = "output/thanks_#{id}.html"
+     File.open(filename, 'w') do |file|
+       file.puts form_letter
+     end
    end
   end
 end
-
