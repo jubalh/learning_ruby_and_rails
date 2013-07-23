@@ -17,15 +17,22 @@ end
 
 puts "EventManager initialized"
 
-if File.exists? "event_attendees.csv"
-  contents = CSV.open "event_attendees.csv", headers: true, header_converters: :symbol
-  contents.each do |row|
-    name = row[:first_name]
-    zip = clean_zipcode(row[:zipcode])
+if File.exists? "form_letter.html"
+  template_letter = File.read "form_letter.html"
 
-    legislators = legislators_by_zipcode(zip).join(", ")
+  if File.exists? "event_attendees.csv"
+   contents = CSV.open "event_attendees.csv", headers: true, header_converters: :symbol
+   contents.each do |row|
+     name = row[:first_name]
+     zip = clean_zipcode(row[:zipcode])
 
-    puts "#{name} #{zip} #{legislators}"
+     legislators = legislators_by_zipcode(zip).join(", ")
+
+     personal_letter = template_letter.gsub('FIRST_NAME', name)
+     personal_letter.gsub!('LEGISLATORS', legislators)
+
+     puts personal_letter
+   end
   end
 end
 
