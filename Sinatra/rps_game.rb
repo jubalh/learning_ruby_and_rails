@@ -2,7 +2,7 @@ require 'sinatra'
 
 before do
   content_type :txt
-  @defeat = {rock: :scissorcs, paper: :rock, scissorcs: :paper}
+  @defeat = {rock: :scissorcs, paper: :rock, scissors: :paper}
   @throws = @defeat.keys
 end
 
